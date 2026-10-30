@@ -1,0 +1,19 @@
+[Unit]
+Description=Hypr Wellbeing usage tracker
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/hypr_wellbeing.py track
+Restart=on-failure
+RestartSec=5
+# Keep it light: event-driven (no polling loop) already means near-zero CPU
+# while idle; these just add a hard ceiling and lower scheduling priority.
+Nice=19
+IOSchedulingClass=idle
+MemoryHigh=40M
+MemoryMax=80M
+
+[Install]
+WantedBy=graphical-session.target
